@@ -1,0 +1,17 @@
+{
+  "name": "opensearch-metrics",
+  "version": "1.0.0",
+  "description": "A webhook server for forwarding GitHub webhooks to OpenSearch",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm install --dev && ./node_modules/.bin/ncc build index.js"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@opensearch-project/opensearch": "^1.1.0",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.33.4"
+  }
+}
