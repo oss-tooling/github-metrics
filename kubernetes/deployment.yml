@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-telemetry
+  namespace: github
+spec:
+  selector:
+    matchLabels:
+      app: github-telemetry
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: github-telemetry
+    spec:
+      containers:
+        - name: github-telemetry
+          image: ghcr.io/lindluni/opensearch-webhooks:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PROTOCOL
+              valueFrom:
+                secretKeyRef:
+                  name: github-telemetry
+                  key: protocol
+                  optional: false
+            - name: HOST
+              valueFrom:
+                secretKeyRef:
+                  name: github-telemetry
+                  key: host
+                  optional: false
+            - name: AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: github-telemetry
+                  key: auth
+                  optional: false
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: github-telemetry
+                  key: secret
+                  optional: false
+      imagePullSecrets:
+        - name: ghcr
