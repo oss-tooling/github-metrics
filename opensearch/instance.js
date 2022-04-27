@@ -2,7 +2,8 @@ const axios = require('axios');
 const fs = require('fs').promises;
 const path = require('path');
 
-const node = process.env.OPENSEARCH_HOST || 'http://localhost:5601';
+const defaultNode = 'https://localhost:5601';
+const node = process.env.OPENSEARCH_HOST || defaultNode;
 const security_tenant=process.env.OPENSEARCH_TENANT || 'global';
 const authCookiePattern = /(^|;)security_authentication=(.*?);/g;
 
@@ -11,7 +12,7 @@ function OSDashboardInstance(params) {
   if (!(params.username && params.password)) {
     throw new Error('Invalid inputs, ensure username and password are provided.');
   }
-
+  this.sanitizeUrl = params.sanitizeUrl == undefined ? true : params.sanitizeUrl;
   this.username = params.username;
   this.password = params.password;
   this.tenant = params.tenant || security_tenant;
@@ -56,6 +57,10 @@ OSDashboardInstance.prototype.exportObjects = async function () {
     'query'
   ]
 
+  if (this.sanitizeUrl) {
+    console.log(`Sanitize URL is enabled, replacing instances of "${node}" with "${defaultNode}" in exported objects.`);
+  }
+
   for (const objectType of objectTypes) {
     let typeDir = `${objectType}s`;
 
@@ -70,8 +75,12 @@ OSDashboardInstance.prototype.exportObjects = async function () {
       typeDir = 'queries';
     }
 
-    const payload = (typeof objects.data === 'string') ? objects.data : JSON.stringify(objects.data);
-    
+    let payload = (typeof objects.data === 'string') ? objects.data : JSON.stringify(objects.data);
+
+    if (this.sanitizeUrl) {
+      payload = payload.replaceAll(node, defaultNode);
+    }
+
     console.debug(`Exporting ${payload.split('\n').length} ${objectType} objects.`);
     const output = path.join(__dirname, 'objects', `${typeDir}.ndjson`);
     await fs.writeFile(output, payload, 'utf8');
