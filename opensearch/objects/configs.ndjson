@@ -1,0 +1,3 @@
+{"attributes":{"buildNum":36526,"defaultIndex":"008b9cf0-bf3e-11ec-95b1-a53787bd6b6b","fields:popularLimit":100},"id":"1.1.0","migrationVersion":{"config":"7.9.0"},"references":[],"type":"config","updated_at":"2022-04-18T20:36:15.469Z","version":"WzYzMSwxXQ=="}
+{"attributes":{"buildNum":1,"defaultIndex":"008b9cf0-bf3e-11ec-95b1-a53787bd6b6b","fields:popularLimit":100},"id":"1.2.0","migrationVersion":{"config":"7.9.0"},"references":[],"type":"config","updated_at":"2022-04-19T05:28:01.146Z","version":"Wzk0NSwxXQ=="}
+{"exportedCount":2,"missingRefCount":0,"missingReferences":[]}

@@ -7,11 +7,13 @@
     "build": "npm install --dev && ./node_modules/.bin/ncc build index.js",
     "docker": "npm run docker:build && npm run docker:push",
     "docker:build": "docker build -t ghcr.io/oss-tooling/github-reporting:0.0.1 .",
-    "docker:push": "docker push ghcr.io/oss-tooling/github-reporting:0.0.1"
+    "docker:push": "docker push ghcr.io/oss-tooling/github-reporting:0.0.1",
+    "export-objects": "node opensearch/export"
   },
   "license": "Apache-2.0",
   "dependencies": {
     "@opensearch-project/opensearch": "^1.1.0",
+    "axios": "^0.27.1",
     "express": "^4.17.3"
   },
   "devDependencies": {
